@@ -24,7 +24,19 @@ export default function Home() {
   return <main>
     <header className="topbar"><div className="topbar-inner"><p>A PRÓXIMA AULA COMEÇA EM</p><div className="divider"/><Countdown/></div></header>
     <section className="hero" aria-labelledby="headline">
-      <div className="giant-mark" aria-hidden="true">g</div>
+      <svg className="giant-mark" viewBox="23 12 61 78" aria-hidden="true" focusable="false">
+        <defs>
+          <filter id="logo-symbol-alpha" colorInterpolationFilters="sRGB">
+            <feColorMatrix type="luminanceToAlpha" />
+            <feComponentTransfer><feFuncA type="table" tableValues="1 0" /></feComponentTransfer>
+            <feComposite in2="SourceAlpha" operator="in" />
+          </filter>
+          <mask id="logo-symbol-mask" maskUnits="userSpaceOnUse" x="23" y="12" width="61" height="78" style={{ maskType: 'alpha' }}>
+            <image href="/gdm-logo.png" width="320" height="101" filter="url(#logo-symbol-alpha)" />
+          </mask>
+        </defs>
+        <rect x="23" y="12" width="61" height="78" fill="currentColor" mask="url(#logo-symbol-mask)" />
+      </svg>
       <div className="glow glow-left" aria-hidden="true"/><div className="glow glow-right" aria-hidden="true"/>
       <svg className="waves" viewBox="0 0 1600 260" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave"><stop stopColor="#009bff"/><stop offset=".18" stopColor="#00e7ff"/><stop offset=".5" stopColor="#004b9a" stopOpacity="0"/><stop offset=".85" stopColor="#00e7ff"/><stop offset="1" stopColor="#007dff"/></linearGradient></defs>{Array.from({length: 9}, (_,i) => <path key={i} d={`M-100 ${25+i*15} C220 ${-10+i*10},250 ${260+i*6},800 ${300+i*4} S1350 ${130+i*14},1700 ${105+i*15}`} fill="none" stroke="url(#wave)" strokeWidth={i===0?3:1} opacity={1-i*.09}/>)}</svg>
       <div className="content">
