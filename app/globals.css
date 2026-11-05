@@ -19,3 +19,8 @@ h1{animation:reveal .85s .22s both}
 @keyframes mark-drift{from{transform:rotate(16deg) translateY(0)}to{transform:rotate(20deg) translateY(12px)}}
 @media(max-width:500px){.brand{transform:none}.brand img{width:210px}.cta{font-size:17px}.cta:hover{transform:translateY(-2px)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.cta:hover,.giant-mark{transform:none}}
+
+/* Use the original logo pixels as a mask; preserve the exact symbol. */
+.giant-mark{width:510px;height:auto;aspect-ratio:61/78;right:-95px;top:20px;font-size:inherit}
+@media(max-width:800px){.giant-mark{width:450px;right:-210px;top:60px}}
+@media(max-width:500px){.giant-mark{width:400px;right:-250px;top:70px}}
