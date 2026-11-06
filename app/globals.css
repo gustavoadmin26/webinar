@@ -40,8 +40,8 @@ h1{animation:reveal .85s .22s both}
 }
 
 /* Reduce the header logo by 15% at both responsive sizes. */
-.brand img{width:177.0125px}
-@media(max-width:500px){.brand img{width:128px}}
+.brand img{width:194.714px}
+@media(max-width:500px){.brand img{width:140.8px}}
 
 /* Keep the class schedule together on narrow phones. */
 @media(max-width:500px){
