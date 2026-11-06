@@ -51,3 +51,8 @@ h1{animation:reveal .85s .22s both}
 }
 
 .brand,.brand img{background:transparent}
+
+@media(max-width:500px){
+  .schedule{font-size:clamp(14px,4.6vw,22px);gap:6px;letter-spacing:-.5px}
+  .schedule svg{width:20px;height:20px;flex-basis:20px}
+}
