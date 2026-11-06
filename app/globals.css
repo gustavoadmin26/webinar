@@ -41,7 +41,7 @@ h1{animation:reveal .85s .22s both}
 
 /* Reduce the header logo by 15% at both responsive sizes. */
 .brand img{width:177.0125px}
-@media(max-width:500px){.brand img{width:151.725px}}
+@media(max-width:500px){.brand img{width:128px}}
 
 /* Keep the class schedule together on narrow phones. */
 @media(max-width:500px){
@@ -49,3 +49,5 @@ h1{animation:reveal .85s .22s both}
   .schedule span{white-space:nowrap;min-width:0}
   .schedule svg{width:22px;height:22px;flex:0 0 22px}
 }
+
+.brand,.brand img{background:transparent}
