@@ -24,3 +24,17 @@ h1{animation:reveal .85s .22s both}
 .giant-mark{width:510px;height:auto;aspect-ratio:61/78;right:-95px;top:20px;font-size:inherit}
 @media(max-width:800px){.giant-mark{width:450px;right:-210px;top:60px}}
 @media(max-width:500px){.giant-mark{width:400px;right:-250px;top:70px}}
+
+/* Keep the mobile footer centered even when the CTA and description wrap. */
+@media(max-width:500px){
+  .hero{padding-bottom:72px}
+  .cta{display:grid;grid-template-columns:30px minmax(0,1fr) 24px;align-items:center;column-gap:12px;padding:18px 16px}
+  .cta>span{min-width:0;text-align:center;line-height:1.35;text-wrap:balance}
+  .cta .whatsapp{justify-self:center}
+  .cta .arrow{justify-self:center}
+  .details{flex-direction:column;gap:8px;max-width:290px;margin:24px auto 0;text-align:center}
+  .details>span{display:block;text-wrap:balance;line-height:1.6}
+  .details svg{width:24px;height:24px}
+  .timezone{max-width:290px;margin:16px auto 0;line-height:1.6;text-align:center;text-wrap:balance}
+  .waves{height:78px;opacity:.55}
+}
