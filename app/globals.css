@@ -38,3 +38,7 @@ h1{animation:reveal .85s .22s both}
   .timezone{max-width:290px;margin:16px auto 0;line-height:1.6;text-align:center;text-wrap:balance}
   .waves{height:78px;opacity:.55}
 }
+
+/* Reduce the header logo by 15% at both responsive sizes. */
+.brand img{width:208.25px}
+@media(max-width:500px){.brand img{width:178.5px}}
