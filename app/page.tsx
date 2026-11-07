@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { ArrowRight, CalendarDays, Video, MessageCircle } from 'lucide-react';
-const WHATSAPP = 'https://chat.whatsapp.com/BiUNRhP5e3t7AD71nHfhFn?s=cl&p=i&mlu=4&ilr=4&iam=2';
+const WHATSAPP = 'https://chat.whatsapp.com/LneJSfjsBHq1RJG8RINFIa?s=cl&p=i&mlu=4&ilr=4&iam=2';
 // Brasília is UTC−03:00. All calculations use UTC so the visitor's timezone does not change the schedule.
 export function nextClass(now: number): number {
   const local = new Date(now - 3 * 60 * 60 * 1000);
