@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { ArrowRight, CalendarDays, Video, MessageCircle } from 'lucide-react';
-const WHATSAPP = 'https://chat.whatsapp.com/LneJSfjsBHq1RJG8RINFIa?s=cl&p=i&mlu=4&ilr=4&iam=2';
+const DEFAULT_WHATSAPP = 'https://chat.whatsapp.com/LneJSfjsBHq1RJG8RINFIa?s=cl&p=i&mlu=4&ilr=4&iam=2';
 // Brasília is UTC−03:00. All calculations use UTC so the visitor's timezone does not change the schedule.
 export function nextClass(now: number): number {
   const local = new Date(now - 3 * 60 * 60 * 1000);
@@ -20,7 +20,14 @@ function Countdown() {
   const values = remaining === null ? ['—', '—', '—', '—'] : [Math.floor(remaining / 86400), Math.floor(remaining / 3600) % 24, Math.floor(remaining / 60) % 60, remaining % 60].map(v => String(v).padStart(2, '0'));
   return <div className="countdown" aria-label="Contagem regressiva para a próxima aula">{values.map((v, i) => <div className="time" key={i}><strong>{v}</strong><span>{['DIAS', 'HORAS', 'MINUTOS', 'SEGUNDOS'][i]}</span></div>)}</div>;
 }
+let pageviewSent = false;
 export default function Home() {
+  useEffect(() => {
+    if (pageviewSent || process.env.NODE_ENV === 'development') return;
+    pageviewSent = true;
+    fetch('/eventos/visualizacao', { method: 'POST', keepalive: true }).catch(() => {});
+  }, []);
+
   return <main>
     <header className="topbar"><div className="topbar-inner"><p>A PRÓXIMA AULA COMEÇA EM</p><div className="divider"/><Countdown/></div></header>
     <section className="hero" aria-labelledby="headline">
@@ -44,7 +51,7 @@ export default function Home() {
         <p className="schedule"><CalendarDays aria-hidden="true"/><span>Toda Quinta às 12h, Ao Vivo:</span></p>
         <h1 id="headline"><span className="highlight">Os 5 Passos</span> Para Atrair<br className="desktop-break"/> Mais Clientes, Vender Mais<br className="desktop-break"/> e Fazer Sua Empresa <em>Crescer</em></h1>
         <p className="subtitle"><span className="dash"/> <span>O método utilizado pelas maiores empresas do <strong>Vale do Silício.</strong></span><span className="dash"/></p>
-        <a className="cta" href={WHATSAPP} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>Entrar no grupo do WhatsApp</span><ArrowRight className="arrow" aria-hidden="true"/></a>
+        <a className="cta" href={process.env.NODE_ENV === 'development' ? DEFAULT_WHATSAPP : '/ir/whatsapp'} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>Entrar no grupo do WhatsApp</span><ArrowRight className="arrow" aria-hidden="true"/></a>
         <p className="details"><Video aria-hidden="true"/><span>Aula gratuita pelo <strong>Google Meet.</strong> De 45 a 60 minutos.</span></p>
         <p className="timezone">Todas as quintas-feiras • 12h no horário de Brasília</p>
       </div>

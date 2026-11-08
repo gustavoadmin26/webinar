@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#031832">
+  <title>Painel do webinar | GDM Company</title>
+  <link rel="manifest" href="/painel/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/painel/icon-192.png">
+  <link rel="icon" href="/painel/icon-192.png">
+  <link rel="stylesheet" href="/painel/painel.css">
+  <script src="/painel/painel.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><div><small>GDM COMPANY</small><h1>Painel do webinar</h1></div><button id="logout" type="button" class="secondary" hidden>Sair</button></header>
+    <p id="status" role="status">Conectando ao painel…</p>
+    <form id="login" class="card" hidden>
+      <h2>Acessar painel</h2>
+      <label for="password">Senha</label>
+      <input id="password" type="password" autocomplete="current-password" maxlength="256" required>
+      <button>Entrar</button>
+    </form>
+    <div id="dashboard" hidden>
+      <section class="card">
+        <div class="section-head"><h2>Desempenho</h2><select id="range" aria-label="Período"><option value="1">Hoje</option><option value="7" selected>Últimos 7 dias</option><option value="30">Últimos 30 dias</option></select></div>
+        <dl class="metrics">
+          <div><dt>Visualizações</dt><dd id="views">—</dd></div>
+          <div><dt>Cliques no WhatsApp</dt><dd id="clicks">—</dd></div>
+          <div><dt>Taxa de clique</dt><dd id="rate">—</dd></div>
+        </dl>
+        <p class="muted">Os cliques indicam a abertura do convite. O período segue o horário de Brasília.</p>
+      </section>
+      <section class="card">
+        <h2>Convite do WhatsApp</h2>
+        <p class="muted">O link publicado passa a valer na hora.</p>
+        <form id="link-form">
+          <label for="link">Link do grupo</label>
+          <input id="link" type="url" inputmode="url" maxlength="1024" autocomplete="off" required>
+          <div class="actions"><button>Publicar link</button><a id="test-link" target="_blank" rel="noopener noreferrer">Testar link ativo ↗</a></div>
+        </form>
+        <h3>Histórico</h3>
+        <ul id="history"></ul>
+      </section>
+    </div>
+  </main>
+  <aside id="toast" hidden><p id="toast-text" role="status"></p><button id="toast-action" hidden>Instalar</button><button class="secondary" id="toast-close" aria-label="Fechar aviso">×</button></aside>
+</body>
+</html>
