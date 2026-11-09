@@ -56,3 +56,9 @@ h1{animation:reveal .85s .22s both}
   .schedule{font-size:clamp(15.4px,5.06vw,24.2px);gap:6px;letter-spacing:-.5px}
   .schedule svg{width:20px;height:20px;flex-basis:20px}
 }
+
+
+/* Increase subtitle prominence across desktop and mobile. */
+.subtitle{font-size:clamp(22px,2.7vw,36px);line-height:1.45;max-width:1100px}
+@media(max-width:800px){.subtitle{font-size:24px;max-width:620px}}
+@media(max-width:500px){.subtitle{font-size:20px;line-height:1.5;margin:22px 4px 28px}}
