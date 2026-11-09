@@ -28,3 +28,16 @@ dd { margin: 4px 0 0; font-size: clamp(17px, 5vw, 32px); font-weight: 750; overf
 #history button { flex-shrink: 0; }
 #toast { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); margin: auto; max-width: 600px; border-radius: 12px; background: #153556; border: 1px solid #527da2; padding: 10px; display: flex; align-items: center; gap: 9px; z-index: 1; }
 #toast p { flex: 1; margin: 0; }
+
+
+textarea { width: 100%; min-height: 76px; resize: vertical; background: #061930; color: inherit; border: 1px solid #456482; border-radius: 9px; padding: 10px 12px; font: inherit; line-height: 1.45; margin-bottom: 12px; }
+textarea:focus, input:focus, select:focus { outline: 2px solid #58dcff; outline-offset: 2px; }
+.tag { color: #58dcff; border: 1px solid #35617e; border-radius: 999px; padding: 5px 9px; font-size: .68rem; font-weight: 800; letter-spacing: .08em; }
+#content-form .actions { margin-top: 8px; }
+#content-form .actions .muted { flex: 1 1 180px; }
+#content-form button { min-width: 160px; }
+@media (max-width: 520px) {
+  main { padding: 24px 14px 100px; }
+  .card { padding: 16px; }
+  #content-form .actions { align-items: flex-start; }
+}
