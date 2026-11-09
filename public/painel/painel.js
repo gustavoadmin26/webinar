@@ -3,6 +3,8 @@ const status = byId('status');
 const login = byId('login');
 const dashboard = byId('dashboard');
 const link = byId('link');
+const contentForm = byId('content-form');
+let contentDirty = false;
 const range = byId('range');
 const toast = byId('toast');
 const toastAction = byId('toast-action');
@@ -94,6 +96,21 @@ submit(login, async () => {
   await api('login', { password: byId('password').value });
   login.reset();
   await refresh();
+});
+contentForm.addEventListener('input', () => { contentDirty = true; });
+submit(contentForm, async () => {
+  const content = {
+    event_date: byId('content-date').value,
+    title: byId('content-title').value,
+    subtitle: byId('content-subtitle').value,
+    body_text: byId('content-text').value,
+    cta: byId('content-cta').value,
+    footer: byId('content-footer').value
+  };
+  await api('content', content);
+  contentDirty = false;
+  await refresh();
+  status.textContent = 'Conteúdo publicado na página.';
 });
 submit(byId('link-form'), async () => {
   await api('link', { url: link.value });
