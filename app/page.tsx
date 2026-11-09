@@ -49,8 +49,8 @@ export default function Home() {
       <div className="content">
         <a href="#headline" className="brand" aria-label="GDM Company"><img src="/gdm-logo-clean.svg?v=3" width="490" height="160" alt="GDM Company" fetchPriority="high" /></a>
         <p className="schedule"><CalendarDays aria-hidden="true"/><span>Toda Quinta às 12h, Ao Vivo:</span></p>
-        <h1 id="headline"><span className="highlight">Os 5 Passos</span> Para Atrair<br className="desktop-break"/> Mais Clientes, Vender Mais<br className="desktop-break"/> e Fazer Sua Empresa <em>Crescer</em></h1>
-        <p className="subtitle"><span className="dash"/> <span>O método utilizado pelas maiores empresas do <strong>Vale do Silício.</strong></span><span className="dash"/></p>
+        <h1 id="headline"><span className="highlight">ARQUITETURA DE</span><br className="desktop-break"/> <em>CRESCIMENTO™</em></h1>
+        <p className="subtitle"><span className="dash"/> <span>Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.</span><span className="dash"/></p>
         <a className="cta" href={process.env.NODE_ENV === 'development' ? DEFAULT_WHATSAPP : '/ir/whatsapp'} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>Entrar no grupo do WhatsApp</span><ArrowRight className="arrow" aria-hidden="true"/></a>
         <p className="details"><Video aria-hidden="true"/><span>Aula gratuita pelo <strong>Google Meet.</strong> De 45 a 60 minutos.</span></p>
         <p className="timezone">Todas as quintas-feiras • 12h no horário de Brasília</p>
