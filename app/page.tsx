@@ -30,6 +30,14 @@ const DEFAULT_CONTENT = {
 };
 let pageviewSent = false;
 export default function Home() {
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  useEffect(() => {
+    fetch('/conteudo', { cache: 'no-store' })
+      .then(response => response.ok ? response.json() : null)
+      .then(data => { if (data) setContent({ ...DEFAULT_CONTENT, ...data }); })
+      .catch(() => {});
+  }, []);
+  const titleParts = content.title.split(' DE ');
   useEffect(() => {
     if (pageviewSent || process.env.NODE_ENV === 'development') return;
     pageviewSent = true;
