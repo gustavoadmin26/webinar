@@ -8,6 +8,7 @@
     "binding": "ASSETS",
     "run_worker_first": [
       "/painel/api/*",
+      "/conteudo",
       "/eventos/*",
       "/ir/*"
     ]
