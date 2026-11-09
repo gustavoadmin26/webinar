@@ -207,3 +207,16 @@ h1{animation:reveal .85s .22s both}
   }
   .details{max-width:300px;margin:21px auto 0}
 }
+
+
+/* Ajuste fino do texto do topo em iPhones: reduz apenas a chamada, sem alterar o contador. */
+@media(max-width:500px){
+  .topbar p{
+    font-size:clamp(11px,3.4vw,14px)!important;
+    line-height:1.3;
+    letter-spacing:1px;
+    white-space:normal;
+    text-align:center;
+    max-width:calc(100vw - 32px);
+  }
+}
