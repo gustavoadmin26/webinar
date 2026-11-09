@@ -195,6 +195,9 @@ export default {
       return env.ASSETS.fetch(request);
     } catch (error) {
       console.error(error);
+      if (/no such column:\s*cta_heading/i.test(String(error?.message || error))) {
+        return json({ error: 'O banco D1 está sem a coluna cta_heading. Execute a migração 0004_cta_heading.sql e tente salvar novamente.' }, 503);
+      }
       return json({ error: 'Não foi possível concluir a operação. Confira a configuração e tente novamente.' }, 503);
     }
   },
