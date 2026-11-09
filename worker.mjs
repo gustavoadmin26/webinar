@@ -1,7 +1,7 @@
 const defaultLink = 'https://chat.whatsapp.com/LneJSfjsBHq1RJG8RINFIa?s=cl&p=i&mlu=4&ilr=4&iam=2';
 const defaultContent = {
   event_date: 'QUINTA-FEIRA, ÀS 12H | AULA AO VIVO E GRATUITA',
-  title: 'ARQUITETURA DE CRESCIMENTO™',
+  title: 'ARQUITETURA DE CRESCIMENTO',
   subtitle: 'Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.',
   body_text: 'Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.',
   cta: 'Entrar no grupo de WhatsApp',
@@ -86,7 +86,7 @@ function safeDesign(value) {
 }
 function activeContent(db) {
   return db.prepare('SELECT event_date, title, subtitle, body_text, cta, footer, design_json FROM site_content WHERE id = 1').first()
-    .then(row => row ? ({ ...defaultContent, ...row, design: safeDesign(row.design_json) }) : ({ ...defaultContent, design: defaultDesign }));
+    .then(row => row ? ({ ...defaultContent, ...row, title: String(row.title || defaultContent.title).replace(/™/g, '').trim(), design: safeDesign(row.design_json) }) : ({ ...defaultContent, design: defaultDesign }));
 }
 function validContent(body) {
   const fields = ['event_date','title','subtitle','body_text','cta','footer'];
@@ -131,7 +131,9 @@ async function panelApi(request, env, path) {
         design_json = excluded.design_json,
         updated_at = CURRENT_TIMESTAMP
     `).bind(content.event_date, content.title, content.subtitle, content.body_text, content.cta, content.footer, JSON.stringify(content.design)).run();
-    return json({ content });
+    const savedContent = await activeContent(env.DB);
+    if (!savedContent) return json({ error: 'O banco não confirmou a gravação. Tente novamente.' }, 503);
+    return json({ ok: true, content: savedContent });
   }
 
   if (path === '/painel/api/link' && request.method === 'POST') {
@@ -159,7 +161,7 @@ async function panelApi(request, env, path) {
     const links = history.results;
     if (links.length < 15) links.push({ id: 0, url: defaultLink, created_at: null });
     const saved = content.results?.[0];
-    const currentContent = saved ? { ...defaultContent, ...saved, design: safeDesign(saved.design_json) } : { ...defaultContent, design: defaultDesign };
+    const currentContent = saved ? { ...defaultContent, ...saved, title: String(saved.title || defaultContent.title).replace(/™/g, '').trim(), design: safeDesign(saved.design_json) } : { ...defaultContent, design: defaultDesign };
     return json({ ...totals.results[0], url: links[0].url, history: links.slice(1), content: currentContent });
   }
   return json({ error: 'Rota indisponível.' }, 404);
