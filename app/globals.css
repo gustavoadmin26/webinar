@@ -81,3 +81,17 @@ h1{animation:reveal .85s .22s both}
   .subtitle{font-size:18px;line-height:1.5;margin:12px 4px 25px}
   .details{margin-top:22px}
 }
+
+/* Editor visual de conteúdo e identidade por seção */
+.design-editor{margin:18px 0;padding:14px;border:1px solid #365673;border-radius:12px;background:#061b32}
+.design-editor summary{cursor:pointer;font-weight:750;color:#58dcff;padding:4px 0}
+.design-editor>.muted{line-height:1.5}
+.design-section{border:1px solid #284260;border-radius:10px;padding:12px;margin:12px 0}
+.design-section legend{font-weight:750;color:#f8fbff;padding:0 6px}
+.design-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}
+.design-grid label{margin:4px 0;font-size:.85rem}
+.design-grid input,.design-grid select{width:100%;margin:5px 0 0;min-width:0}
+@media(max-width:520px){.design-grid{grid-template-columns:1fr}}
+/* Valores visuais configuráveis pelo painel */
+.schedule,.brand,h1,.intro,.subtitle,.cta,.details{font-family:var(--section-font,inherit);font-size:var(--section-desktop,inherit);background-color:var(--section-bg,transparent);color:var(--section-color,inherit)}
+@media(max-width:500px){.schedule,.brand,h1,.intro,.subtitle,.cta,.details{font-size:var(--section-mobile,inherit)}}
