@@ -1,4 +1,12 @@
 const defaultLink = 'https://chat.whatsapp.com/LneJSfjsBHq1RJG8RINFIa?s=cl&p=i&mlu=4&ilr=4&iam=2';
+const defaultContent = {
+  event_date: 'QUINTA-FEIRA, ÀS 12H | AULA AO VIVO E GRATUITA',
+  title: 'ARQUITETURA DE CRESCIMENTO™',
+  subtitle: 'Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.',
+  body_text: 'Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.',
+  cta: 'QUERO PARTICIPAR DA AULA',
+  footer: 'Ao vivo pelo Google Meet | 45 a 60 minutos'
+};
 const sessionCookie = '__Host-webinar-panel';
 const encoder = new TextEncoder();
 const formatDay = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Sao_Paulo' });
@@ -78,6 +86,25 @@ async function panelApi(request, env, path) {
   if (!await signedIn(request, key)) return json({ error: 'Faça login para continuar.' }, 401);
   if (path === '/painel/api/logout' && request.method === 'POST') return json({ ok: true }, 200, { 'Set-Cookie': cookie('', 0) });
 
+  if (path === '/painel/api/content' && request.method === 'POST') {
+    const body = await request.json().catch(() => ({}));
+    const content = validContent(body);
+    if (!content) return json({ error: 'Confira os campos: todos são obrigatórios e devem respeitar os limites de caracteres.' }, 400);
+    await env.DB.prepare(`
+      INSERT INTO site_content (id, event_date, title, subtitle, body_text, cta, footer, updated_at)
+      VALUES (1, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      ON CONFLICT(id) DO UPDATE SET
+        event_date = excluded.event_date,
+        title = excluded.title,
+        subtitle = excluded.subtitle,
+        body_text = excluded.body_text,
+        cta = excluded.cta,
+        footer = excluded.footer,
+        updated_at = CURRENT_TIMESTAMP
+    `).bind(content.event_date, content.title, content.subtitle, content.body_text, content.cta, content.footer).run();
+    return json({ content });
+  }
+
   if (path === '/painel/api/link' && request.method === 'POST') {
     const body = await request.json().catch(() => ({}));
     const url = validInvite(body?.url);
@@ -95,13 +122,13 @@ async function panelApi(request, env, path) {
     const today = formatDay.format(new Date());
     const start = new Date(today + 'T00:00:00Z');
     start.setUTCDate(start.getUTCDate() - range + 1);
-    const [totals, history] = await env.DB.batch([
+    const [totals, history, content] = await env.DB.batch([
       env.DB.prepare('SELECT COALESCE(SUM(pageviews), 0) AS pageviews, COALESCE(SUM(clicks), 0) AS clicks FROM daily_metrics WHERE day BETWEEN ? AND ?').bind(start.toISOString().slice(0, 10), today),
       env.DB.prepare('SELECT id, url, created_at FROM whatsapp_links ORDER BY id DESC LIMIT 15'),
     ]);
     const links = history.results;
     if (links.length < 15) links.push({ id: 0, url: defaultLink, created_at: null });
-    return json({ ...totals.results[0], url: links[0].url, history: links.slice(1) });
+    return json({ ...totals.results[0], url: links[0].url, history: links.slice(1), content: content.results[0] || defaultContent });
   }
   return json({ error: 'Rota indisponível.' }, 404);
 }
@@ -112,6 +139,10 @@ export default {
     const path = url.pathname.replace(/\/$/, '') || '/';
     try {
       if (path.startsWith('/painel/api/')) return await panelApi(request, env, path);
+      if (path === '/conteudo' && request.method === 'GET') {
+        const content = env.DB ? await activeContent(env.DB).catch(() => defaultContent) : defaultContent;
+        return json(content, 200, { 'Access-Control-Allow-Origin': url.origin });
+      }
       if (path === '/eventos/visualizacao' && request.method === 'POST') {
         if (request.headers.get('Origin') !== url.origin && request.headers.get('Sec-Fetch-Site') !== 'same-origin') return json({ error: 'Origem inválida.' }, 403);
         if (env.DB) context.waitUntil(record(env.DB, 'view').catch(console.error));
