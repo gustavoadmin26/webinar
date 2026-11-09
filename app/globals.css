@@ -105,3 +105,6 @@ h1{animation:reveal .85s .22s both}
 @media(max-width:500px){.brand img{width:var(--section-mobile,141px)}}
 .content h1[style] em{color:var(--section-color)!important}
 .schedule span{background:none;-webkit-text-fill-color:var(--section-color);color:var(--section-color)}
+
+.cta-heading{font-family:var(--section-font,inherit);font-size:var(--section-desktop,32px);background-color:var(--section-bg,transparent);color:var(--section-color,inherit);font-weight:800;text-align:center;line-height:1.25;margin:0 auto 14px;letter-spacing:.2px}
+@media(max-width:500px){.cta-heading{font-size:var(--section-mobile,20px);margin-bottom:12px}}
