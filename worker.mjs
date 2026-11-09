@@ -128,7 +128,7 @@ async function panelApi(request, env, path) {
     ]);
     const links = history.results;
     if (links.length < 15) links.push({ id: 0, url: defaultLink, created_at: null });
-    return json({ ...totals.results[0], url: links[0].url, history: links.slice(1), content: content.results[0] || defaultContent });
+    return json({ ...totals.results[0], url: links[0].url, history: links.slice(1), content });
   }
   return json({ error: 'Rota indisponível.' }, 404);
 }
