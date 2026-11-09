@@ -154,7 +154,7 @@ async function panelApi(request, env, path) {
     const [totals, history, content] = await env.DB.batch([
       env.DB.prepare('SELECT COALESCE(SUM(pageviews), 0) AS pageviews, COALESCE(SUM(clicks), 0) AS clicks FROM daily_metrics WHERE day BETWEEN ? AND ?').bind(start.toISOString().slice(0, 10), today),
       env.DB.prepare('SELECT id, url, created_at FROM whatsapp_links ORDER BY id DESC LIMIT 15'),
-      env.DB.prepare('SELECT event_date, title, subtitle, body_text, cta_heading, cta, footer, design_json FROM site_content WHERE id = 1')
+      env.DB.prepare('SELECT event_date, title, subtitle, body_text, cta, footer, design_json FROM site_content WHERE id = 1')
     ]);
     const links = history.results;
     if (links.length < 15) links.push({ id: 0, url: defaultLink, created_at: null });
@@ -193,9 +193,6 @@ export default {
       return env.ASSETS.fetch(request);
     } catch (error) {
       console.error(error);
-      if (/no such column:\s*cta_heading/i.test(String(error?.message || error))) {
-        return json({ error: 'O banco D1 está sem a coluna cta_heading. Execute a migração 0004_cta_heading.sql e tente salvar novamente.' }, 503);
-      }
       return json({ error: 'Não foi possível concluir a operação. Confira a configuração e tente novamente.' }, 503);
     }
   },
