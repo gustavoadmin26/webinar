@@ -11,7 +11,7 @@ export function nextClass(now: number): number {
   if (target <= now) target += 7 * 24 * 60 * 60 * 1000;
   return target;
 }
-function Countdown() {
+function Countdown({ style }: { style: CSSProperties }) {
   const [remaining, setRemaining] = useState<number | null>(null);
   useEffect(() => {
     let target = nextClass(Date.now());
@@ -19,7 +19,7 @@ function Countdown() {
     update(); const timer = setInterval(update, 1000); return () => clearInterval(timer);
   }, []);
   const values = remaining === null ? ['—', '—', '—', '—'] : [Math.floor(remaining / 86400), Math.floor(remaining / 3600) % 24, Math.floor(remaining / 60) % 60, remaining % 60].map(v => String(v).padStart(2, '0'));
-  return <div className="countdown" aria-label="Contagem regressiva para a próxima aula">{values.map((v, i) => <div className="time" key={i}><strong>{v}</strong><span>{['DIAS', 'HORAS', 'MINUTOS', 'SEGUNDOS'][i]}</span></div>)}</div>;
+  return <div className="countdown" style={style} aria-label="Contagem regressiva para a próxima aula">{values.map((v, i) => <div className="time" key={i}><strong>{v}</strong><span>{['DIAS', 'HORAS', 'MINUTOS', 'SEGUNDOS'][i]}</span></div>)}</div>;
 }
 const DEFAULT_DESIGN = {"countdown":{"font_family":"Arial","desktop_size":34,"mobile_size":28,"background":"#02162c","color":"#f8fbff"},"brand":{"font_family":"Arial","desktop_size":20,"mobile_size":18,"background":"transparent","color":"#ffffff"},"schedule":{"font_family":"Arial","desktop_size":27,"mobile_size":18,"background":"transparent","color":"#ff744d"},"title":{"font_family":"Arial","desktop_size":64,"mobile_size":36,"background":"transparent","color":"#00d8f5"},"intro":{"font_family":"Arial","desktop_size":30,"mobile_size":19,"background":"transparent","color":"#f8fbff"},"subtitle":{"font_family":"Arial","desktop_size":36,"mobile_size":18,"background":"transparent","color":"#f8fbff"},"cta":{"font_family":"Arial","desktop_size":32,"mobile_size":17,"background":"#12bd70","color":"#ffffff"},"footer":{"font_family":"Arial","desktop_size":22,"mobile_size":14,"background":"transparent","color":"#e2e9f1"}};
 const DEFAULT_CONTENT = {
@@ -49,7 +49,7 @@ export default function Home() {
   }, []);
 
   return <main>
-    <header className="topbar"><div className="topbar-inner"><p>A PRÓXIMA AULA COMEÇA EM</p><div className="divider"/><Countdown/></div></header>
+    <header className="topbar"><div className="topbar-inner"><p style={sectionStyle("countdown")}>A PRÓXIMA AULA COMEÇA EM</p><div className="divider"/><Countdown style={sectionStyle("countdown")}/></div></header>
     <section className="hero" aria-labelledby="headline">
       <svg className="giant-mark" viewBox="23 12 61 78" aria-hidden="true" focusable="false">
         <defs>
