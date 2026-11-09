@@ -4,7 +4,6 @@ const defaultContent = {
   title: 'ARQUITETURA DE CRESCIMENTO™',
   subtitle: 'Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.',
   body_text: 'Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.',
-  cta_heading: 'QUERO PARTICIPAR DA AULA →',
   cta: 'Entrar no grupo de WhatsApp',
   footer: 'Ao vivo pelo Google Meet | 45 a 60 minutos'
 };
@@ -86,12 +85,12 @@ function safeDesign(value) {
   return result;
 }
 function activeContent(db) {
-  return db.prepare('SELECT event_date, title, subtitle, body_text, cta, footer, cta_heading, design_json FROM site_content WHERE id = 1').first()
+  return db.prepare('SELECT event_date, title, subtitle, body_text, cta, footer, design_json FROM site_content WHERE id = 1').first()
     .then(row => row ? ({ ...defaultContent, ...row, design: safeDesign(row.design_json) }) : ({ ...defaultContent, design: defaultDesign }));
 }
 function validContent(body) {
-  const fields = ['event_date','title','subtitle','body_text','cta_heading','cta','footer'];
-  const limits = [180,180,300,500,120,100,220];
+  const fields = ['event_date','title','subtitle','body_text','cta','footer'];
+  const limits = [180,180,300,500,100,220];
   if (!body || fields.some((field, i) => typeof body[field] !== 'string' || !body[field].trim() || body[field].length > limits[i])) return null;
   return { ...Object.fromEntries(fields.map(field => [field, body[field].trim()])), design: safeDesign(body.design) };
 }
@@ -120,19 +119,18 @@ async function panelApi(request, env, path) {
     const content = validContent(body);
     if (!content) return json({ error: 'Confira os campos: todos são obrigatórios e devem respeitar os limites de caracteres.' }, 400);
     await env.DB.prepare(`
-      INSERT INTO site_content (id, event_date, title, subtitle, body_text, cta_heading, cta, footer, design_json, updated_at)
-      VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      INSERT INTO site_content (id, event_date, title, subtitle, body_text, cta, footer, design_json, updated_at)
+      VALUES (1, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(id) DO UPDATE SET
         event_date = excluded.event_date,
         title = excluded.title,
         subtitle = excluded.subtitle,
         body_text = excluded.body_text,
-        cta_heading = excluded.cta_heading,
         cta = excluded.cta,
         footer = excluded.footer,
         design_json = excluded.design_json,
         updated_at = CURRENT_TIMESTAMP
-    `).bind(content.event_date, content.title, content.subtitle, content.body_text, content.cta_heading, content.cta, content.footer, JSON.stringify(content.design)).run();
+    `).bind(content.event_date, content.title, content.subtitle, content.body_text, content.cta, content.footer, JSON.stringify(content.design)).run();
     return json({ content });
   }
 
