@@ -29,8 +29,9 @@ async function api(route, body) {
     options.body = JSON.stringify(body);
   }
   const response = await fetch('/painel/api/' + route, options);
-  const result = await response.json();
-  if (!response.ok) throw Object.assign(new Error(result.error), { status: response.status });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw Object.assign(new Error(result.error || 'O servidor recusou a operação (HTTP ' + response.status + ').'), { status: response.status });
+  if (!result || typeof result !== 'object') throw new Error('O servidor retornou uma resposta inválida.');
   return result;
 }
 
@@ -95,15 +96,27 @@ function submit(form, action) {
     event.preventDefault();
     if (submitting) return;
     submitting = true;
-    const button = form.querySelector('button');
-    button.disabled = true;
+    const button = form.querySelector('button[type="submit"], button:not([type])');
+    const originalLabel = button?.textContent;
+    submitting = true;
+    if (button) {
+      button.disabled = true;
+      if (form === contentForm) button.textContent = 'Salvando…';
+      else if (form.id === 'link-form') button.textContent = 'Publicando…';
+    }
+    status.dataset.state = 'pending';
+    status.textContent = 'Enviando alterações e aguardando confirmação do servidor…';
     try {
       await action();
     } catch (error) {
-      status.textContent = error.message;
+      status.dataset.state = 'error';
+      status.textContent = error.message || 'Não foi possível salvar. Tente novamente.';
     } finally {
       submitting = false;
-      button.disabled = false;
+      if (button) {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
     }
   });
 }
@@ -125,16 +138,20 @@ submit(contentForm, async () => {
     footer: byId('content-footer').value,
     design: readDesign()
   };
-  await api('content', content);
+  const result = await api('content', content);
+  if (!result.content) throw new Error('O servidor não confirmou a gravação do conteúdo. Nenhuma confirmação foi exibida.');
   contentDirty = false;
   await refresh();
-  status.textContent = 'Conteúdo publicado na página.';
+  status.dataset.state = 'success';
+  status.textContent = '✓ Conteúdo salvo no banco e publicado na página.';
 });
 submit(byId('link-form'), async () => {
-  await api('link', { url: link.value });
+  const result = await api('link', { url: link.value });
+  if (!result.url) throw new Error('O servidor não confirmou a gravação do link.');
   sessionStorage.removeItem(draftKey);
   await refresh();
-  status.textContent = 'Link publicado.';
+  status.dataset.state = 'success';
+  status.textContent = '✓ Link salvo e publicado.';
 });
 link.addEventListener('input', () => sessionStorage.setItem(draftKey, link.value));
 range.addEventListener('change', refresh);
