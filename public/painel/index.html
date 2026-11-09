@@ -9,8 +9,8 @@
   <link rel="manifest" href="/painel/manifest.webmanifest">
   <link rel="apple-touch-icon" href="/painel/icon-192.png">
   <link rel="icon" href="/painel/icon-192.png">
-  <link rel="stylesheet" href="/painel/painel.css?v=20261109-2">
-  <script src="/painel/painel.js?v=20261109-2" defer></script>
+  <link rel="stylesheet" href="/painel/painel.css?v=20261109-3">
+  <script src="/painel/painel.js?v=20261109-3" defer></script>
 </head>
 <body>
   <main>
@@ -20,7 +20,7 @@
       <h2>Acessar painel</h2>
       <label for="password">Senha</label>
       <input id="password" type="password" autocomplete="current-password" maxlength="256" required>
-      <button>Entrar</button>
+      <button type="submit">Entrar</button>
     </form>
     <div id="dashboard" hidden>
       <section class="card">
@@ -49,7 +49,7 @@
           <textarea id="content-footer" name="footer" rows="2" maxlength="220" required></textarea>
 
           <details class="design-editor"><summary>Design e aparência de cada seção</summary><p class="muted">Ajuste fonte, tamanhos para desktop/celular e cores. Use transparent no fundo para manter o fundo geral.</p><div id="design-fields"></div></details>
-          <div class="actions"><button id="save-content">Salvar conteúdo</button><span class="muted">As alterações aparecem na página após salvar.</span></div>
+          <div class="actions"><button id="save-content" type="submit">Salvar conteúdo</button><span class="muted">As alterações aparecem na página após salvar.</span></div>
         </form>
       </section>
       <section class="card">
@@ -58,7 +58,7 @@
         <form id="link-form">
           <label for="link">Link do grupo</label>
           <input id="link" type="url" inputmode="url" maxlength="1024" autocomplete="off" required>
-          <div class="actions"><button>Publicar link</button><a id="test-link" target="_blank" rel="noopener noreferrer">Testar link ativo ↗</a></div>
+          <div class="actions"><button type="submit">Publicar link</button><a id="test-link" target="_blank" rel="noopener noreferrer">Testar link ativo ↗</a></div>
         </form>
         <h3>Histórico</h3>
         <ul id="history"></ul>
