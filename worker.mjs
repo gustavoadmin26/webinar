@@ -4,7 +4,8 @@ const defaultContent = {
   title: 'ARQUITETURA DE CRESCIMENTO™',
   subtitle: 'Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.',
   body_text: 'Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.',
-  cta: 'QUERO PARTICIPAR DA AULA',
+  cta_heading: 'QUERO PARTICIPAR DA AULA →',
+  cta: 'Entrar no grupo de WhatsApp',
   footer: 'Ao vivo pelo Google Meet | 45 a 60 minutos'
 };
 const defaultDesign = {"countdown":{"font_family":"Arial","desktop_size":34,"mobile_size":28,"background":"#02162c","color":"#f8fbff"},"brand":{"font_family":"Arial","desktop_size":195,"mobile_size":141,"background":"transparent","color":"#ffffff"},"schedule":{"font_family":"Arial","desktop_size":27,"mobile_size":18,"background":"transparent","color":"#ff744d"},"title":{"font_family":"Arial","desktop_size":64,"mobile_size":36,"background":"transparent","color":"#00d8f5"},"intro":{"font_family":"Arial","desktop_size":30,"mobile_size":19,"background":"transparent","color":"#f8fbff"},"subtitle":{"font_family":"Arial","desktop_size":36,"mobile_size":18,"background":"transparent","color":"#f8fbff"},"cta":{"font_family":"Arial","desktop_size":32,"mobile_size":17,"background":"#12bd70","color":"#ffffff"},"footer":{"font_family":"Arial","desktop_size":22,"mobile_size":14,"background":"transparent","color":"#e2e9f1"}};
@@ -85,12 +86,12 @@ function safeDesign(value) {
   return result;
 }
 function activeContent(db) {
-  return db.prepare('SELECT event_date, title, subtitle, body_text, cta, footer, design_json FROM site_content WHERE id = 1').first()
+  return db.prepare('SELECT event_date, title, subtitle, body_text, cta, footer, cta_heading, design_json FROM site_content WHERE id = 1').first()
     .then(row => row ? ({ ...defaultContent, ...row, design: safeDesign(row.design_json) }) : ({ ...defaultContent, design: defaultDesign }));
 }
 function validContent(body) {
-  const fields = ['event_date','title','subtitle','body_text','cta','footer'];
-  const limits = [180,180,300,500,100,220];
+  const fields = ['event_date','title','subtitle','body_text','cta_heading','cta','footer'];
+  const limits = [180,180,300,500,120,100,220];
   if (!body || fields.some((field, i) => typeof body[field] !== 'string' || !body[field].trim() || body[field].length > limits[i])) return null;
   return { ...Object.fromEntries(fields.map(field => [field, body[field].trim()])), design: safeDesign(body.design) };
 }
@@ -119,18 +120,19 @@ async function panelApi(request, env, path) {
     const content = validContent(body);
     if (!content) return json({ error: 'Confira os campos: todos são obrigatórios e devem respeitar os limites de caracteres.' }, 400);
     await env.DB.prepare(`
-      INSERT INTO site_content (id, event_date, title, subtitle, body_text, cta, footer, design_json, updated_at)
-      VALUES (1, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      INSERT INTO site_content (id, event_date, title, subtitle, body_text, cta_heading, cta, footer, design_json, updated_at)
+      VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(id) DO UPDATE SET
         event_date = excluded.event_date,
         title = excluded.title,
         subtitle = excluded.subtitle,
         body_text = excluded.body_text,
+        cta_heading = excluded.cta_heading,
         cta = excluded.cta,
         footer = excluded.footer,
         design_json = excluded.design_json,
         updated_at = CURRENT_TIMESTAMP
-    `).bind(content.event_date, content.title, content.subtitle, content.body_text, content.cta, content.footer, JSON.stringify(content.design)).run();
+    `).bind(content.event_date, content.title, content.subtitle, content.body_text, content.cta_heading, content.cta, content.footer, JSON.stringify(content.design)).run();
     return json({ content });
   }
 
