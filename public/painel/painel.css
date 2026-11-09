@@ -22,7 +22,10 @@ a { color: #77e6ff; }
 dt, .muted { color: #bbcde0; font-size: .87rem; }
 dt { min-height: 2.6em; }
 dd { margin: 4px 0 0; font-size: clamp(17px, 5vw, 32px); font-weight: 750; overflow-wrap: anywhere; }
-#status { min-height: 1.25em; color: #bfeaff; }
+#status { min-height: 1.25em; color: #bfeaff; padding: 9px 12px; border-radius: 9px; }
+#status[data-state="pending"] { background: #173653; color: #d9f4ff; }
+#status[data-state="success"] { background: #123d34; color: #a8f3d4; }
+#status[data-state="error"] { background: #4a2029; color: #ffd5dc; }
 #history { padding: 0; list-style: none; }
 #history li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #284260; overflow-wrap: anywhere; }
 #history button { flex-shrink: 0; }
