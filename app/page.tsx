@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { ArrowRight, CalendarDays, Video, MessageCircle } from 'lucide-react';
+import { ArrowRight, Video, MessageCircle } from 'lucide-react';
 const DEFAULT_WHATSAPP = 'https://chat.whatsapp.com/LneJSfjsBHq1RJG8RINFIa?s=cl&p=i&mlu=4&ilr=4&iam=2';
 // Brasília is UTC−03:00. All calculations use UTC so the visitor's timezone does not change the schedule.
 export function nextClass(now: number): number {
@@ -48,12 +48,12 @@ export default function Home() {
       <svg className="waves" viewBox="0 0 1600 260" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave"><stop stopColor="#009bff"/><stop offset=".18" stopColor="#00e7ff"/><stop offset=".5" stopColor="#004b9a" stopOpacity="0"/><stop offset=".85" stopColor="#00e7ff"/><stop offset="1" stopColor="#007dff"/></linearGradient></defs>{Array.from({length: 9}, (_,i) => <path key={i} d={`M-100 ${25+i*15} C220 ${-10+i*10},250 ${260+i*6},800 ${300+i*4} S1350 ${130+i*14},1700 ${105+i*15}`} fill="none" stroke="url(#wave)" strokeWidth={i===0?3:1} opacity={1-i*.09}/>)}</svg>
       <div className="content">
         <a href="#headline" className="brand" aria-label="GDM Company"><img src="/gdm-logo-clean.svg?v=3" width="490" height="160" alt="GDM Company" fetchPriority="high" /></a>
-        <p className="schedule"><CalendarDays aria-hidden="true"/><span>Toda Quinta às 12h, Ao Vivo:</span></p>
-        <h1 id="headline"><span className="highlight">ARQUITETURA DE</span><br className="desktop-break"/> <em>CRESCIMENTO</em></h1>
+        <p className="schedule"><span>QUINTA-FEIRA, ÀS 12H | AULA AO VIVO E GRATUITA</span></p>
+        <h1 id="headline"><span className="highlight">ARQUITETURA DE</span><br className="desktop-break"/> <em>CRESCIMENTO™</em></h1>
+        <p className="intro">Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.</p>
         <p className="subtitle"><span className="dash"/> <span>Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.</span><span className="dash"/></p>
-        <a className="cta" href={process.env.NODE_ENV === 'development' ? DEFAULT_WHATSAPP : '/ir/whatsapp'} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>Entrar no grupo do WhatsApp</span><ArrowRight className="arrow" aria-hidden="true"/></a>
-        <p className="details"><Video aria-hidden="true"/><span>Aula gratuita pelo <strong>Google Meet.</strong> De 45 a 60 minutos.</span></p>
-        <p className="timezone">Todas as quintas-feiras • 12h no horário de Brasília</p>
+        <a className="cta" href={process.env.NODE_ENV === 'development' ? DEFAULT_WHATSAPP : '/ir/whatsapp'} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>QUERO PARTICIPAR DA AULA</span><ArrowRight className="arrow" aria-hidden="true"/></a>
+        <p className="details"><Video aria-hidden="true"/><span>Ao vivo pelo <strong>Google Meet</strong> | 45 a 60 minutos</span></p>
       </div>
     </section>
   </main>;
