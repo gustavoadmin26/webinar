@@ -100,3 +100,8 @@ h1{animation:reveal .85s .22s both}
 .topbar p,.countdown .time strong{font-size:var(--section-desktop,inherit)}
 @media(max-width:500px){.topbar p,.countdown .time strong{font-size:var(--section-mobile,inherit)}}
 .cta{background-image:none}
+
+.brand img{width:var(--section-desktop,195px)}
+@media(max-width:500px){.brand img{width:var(--section-mobile,141px)}}
+.content h1[style] em{color:var(--section-color)!important}
+.schedule span{background:none;-webkit-text-fill-color:var(--section-color);color:var(--section-color)}
