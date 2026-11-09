@@ -14,6 +14,12 @@ let activeUrl;
 let requestNumber = 0;
 let submitting = false;
 const draftKey = 'webinar-link-draft';
+const designDefaults = {"countdown":{"font_family":"Arial","desktop_size":34,"mobile_size":28,"background":"#02162c","color":"#f8fbff"},"brand":{"font_family":"Arial","desktop_size":20,"mobile_size":18,"background":"transparent","color":"#ffffff"},"schedule":{"font_family":"Arial","desktop_size":27,"mobile_size":18,"background":"transparent","color":"#ff744d"},"title":{"font_family":"Arial","desktop_size":64,"mobile_size":36,"background":"transparent","color":"#00d8f5"},"intro":{"font_family":"Arial","desktop_size":30,"mobile_size":19,"background":"transparent","color":"#f8fbff"},"subtitle":{"font_family":"Arial","desktop_size":36,"mobile_size":18,"background":"transparent","color":"#f8fbff"},"cta":{"font_family":"Arial","desktop_size":32,"mobile_size":17,"background":"#12bd70","color":"#ffffff"},"footer":{"font_family":"Arial","desktop_size":22,"mobile_size":14,"background":"transparent","color":"#e2e9f1"}};
+const designLabels = {"countdown":"Contagem regressiva","brand":"Logo","schedule":"Data / chamada","title":"Título principal","intro":"Texto de apoio","subtitle":"Subtítulo","cta":"Botão CTA","footer":"Rodapé"};
+const designFields = byId('design-fields');
+designFields.innerHTML = Object.entries(designDefaults).map(([section, d]) => '<fieldset class="design-section"><legend>'+designLabels[section]+'</legend><div class="design-grid"><label>Fonte<select data-design="'+section+'" data-key="font_family"><option>Arial</option><option>Helvetica</option><option>Georgia</option><option>Verdana</option><option>Tahoma</option><option>Trebuchet MS</option><option>system-ui</option></select></label><label>Tamanho desktop (px)<input type="number" min="10" max="100" data-design="'+section+'" data-key="desktop_size"></label><label>Tamanho celular (px)<input type="number" min="10" max="100" data-design="'+section+'" data-key="mobile_size"></label><label>Fundo (#hex ou transparent)<input type="text" maxlength="16" data-design="'+section+'" data-key="background"></label><label>Cor do texto (#hex)<input type="text" maxlength="7" data-design="'+section+'" data-key="color"></label></div></fieldset>').join('');
+function readDesign() { const result = {}; for (const [section, base] of Object.entries(designDefaults)) { result[section] = { ...base }; designFields.querySelectorAll('[data-design="'+section+'"]').forEach(input => { result[section][input.dataset.key] = input.type === 'number' ? Number(input.value) : input.value; }); } return result; }
+function fillDesign(value) { const design = value || designDefaults; designFields.querySelectorAll('[data-design]').forEach(input => { const d = design[input.dataset.design] || designDefaults[input.dataset.design]; input.value = d[input.dataset.key] ?? designDefaults[input.dataset.design][input.dataset.key]; }); }
 
 async function api(route, body) {
   const options = { cache: 'no-store' };
@@ -41,6 +47,7 @@ async function refresh() {
       byId('content-text').value = data.content.body_text || '';
       byId('content-cta').value = data.content.cta || '';
       byId('content-footer').value = data.content.footer || '';
+      fillDesign(data.content.design);
     }
     link.value = sessionStorage.getItem(draftKey) ?? activeUrl;
     byId('test-link').href = activeUrl;
@@ -113,7 +120,8 @@ submit(contentForm, async () => {
     subtitle: byId('content-subtitle').value,
     body_text: byId('content-text').value,
     cta: byId('content-cta').value,
-    footer: byId('content-footer').value
+    footer: byId('content-footer').value,
+    design: readDesign()
   };
   await api('content', content);
   contentDirty = false;
