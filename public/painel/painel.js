@@ -43,7 +43,7 @@ async function refresh() {
     activeUrl = data.url;
     if (data.content && !contentDirty) {
       byId('content-date').value = data.content.event_date || '';
-      byId('content-title').value = data.content.title || '';
+      byId('content-title').value = (data.content.title || '').replace(/™/g, '').trim();
       byId('content-subtitle').value = data.content.subtitle || '';
       byId('content-text').value = data.content.body_text || '';
       byId('content-cta').value = data.content.cta || 'Entrar no grupo de WhatsApp';
