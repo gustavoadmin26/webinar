@@ -33,6 +33,24 @@
         <p class="muted">Os cliques indicam a abertura do convite. O período segue o horário de Brasília.</p>
       </section>
       <section class="card">
+        <div class="section-head"><div><h2>Conteúdo da página</h2><p class="muted">Edite os textos que aparecem na página pública do webinar.</p></div><span class="tag">EDITOR DO SITE</span></div>
+        <form id="content-form">
+          <label for="content-date">Data</label>
+          <input id="content-date" name="event_date" type="text" maxlength="180" required>
+          <label for="content-title">Título</label>
+          <input id="content-title" name="title" type="text" maxlength="180" required>
+          <label for="content-subtitle">Subtítulo</label>
+          <textarea id="content-subtitle" name="subtitle" rows="2" maxlength="300" required></textarea>
+          <label for="content-text">Texto</label>
+          <textarea id="content-text" name="body_text" rows="3" maxlength="500" required></textarea>
+          <label for="content-cta">CTA (texto do botão)</label>
+          <input id="content-cta" name="cta" type="text" maxlength="100" required>
+          <label for="content-footer">Rodapé</label>
+          <textarea id="content-footer" name="footer" rows="2" maxlength="220" required></textarea>
+          <div class="actions"><button id="save-content">Salvar conteúdo</button><span class="muted">As alterações aparecem na página após salvar.</span></div>
+        </form>
+      </section>
+      <section class="card">
         <h2>Convite do WhatsApp</h2>
         <p class="muted">O link publicado passa a valer na hora.</p>
         <form id="link-form">
