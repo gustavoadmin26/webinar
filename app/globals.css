@@ -95,3 +95,8 @@ h1{animation:reveal .85s .22s both}
 /* Valores visuais configuráveis pelo painel */
 .schedule,.brand,h1,.intro,.subtitle,.cta,.details{font-family:var(--section-font,inherit);font-size:var(--section-desktop,inherit);background-color:var(--section-bg,transparent);color:var(--section-color,inherit)}
 @media(max-width:500px){.schedule,.brand,h1,.intro,.subtitle,.cta,.details{font-size:var(--section-mobile,inherit)}}
+
+.topbar p,.countdown,.countdown .time strong,.countdown .time span{font-family:var(--section-font,inherit);color:var(--section-color,inherit);background-color:var(--section-bg,transparent)}
+.topbar p,.countdown .time strong{font-size:var(--section-desktop,inherit)}
+@media(max-width:500px){.topbar p,.countdown .time strong{font-size:var(--section-mobile,inherit)}}
+.cta{background-image:none}
