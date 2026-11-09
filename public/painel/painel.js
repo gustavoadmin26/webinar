@@ -96,10 +96,16 @@ function submit(form, action) {
     if (submitting) return;
     if (!form.checkValidity()) {
       const invalidField = form.querySelector(':invalid');
+      const fieldLabel = invalidField
+        ? (invalidField.labels?.[0]?.textContent || invalidField.closest('label')?.textContent || invalidField.closest('fieldset')?.querySelector('legend')?.textContent || invalidField.name || invalidField.id || 'campo sem identificação').replace(/\\s+/g, ' ').trim()
+        : 'campo não identificado';
       status.dataset.state = 'error';
-      status.textContent = 'Há um campo obrigatório vazio ou com valor inválido. Confira os campos destacados.';
-      invalidField?.focus();
-      invalidField?.reportValidity();
+      status.textContent = 'Campo com problema: ' + fieldLabel + '. Preencha ou corrija esse campo e tente salvar novamente.';
+      if (invalidField) {
+        invalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        invalidField.focus({ preventScroll: true });
+        invalidField.reportValidity();
+      }
       return;
     }
     const button = form.querySelector('button[type="submit"], button:not([type])');
