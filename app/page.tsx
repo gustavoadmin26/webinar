@@ -20,6 +20,14 @@ function Countdown() {
   const values = remaining === null ? ['—', '—', '—', '—'] : [Math.floor(remaining / 86400), Math.floor(remaining / 3600) % 24, Math.floor(remaining / 60) % 60, remaining % 60].map(v => String(v).padStart(2, '0'));
   return <div className="countdown" aria-label="Contagem regressiva para a próxima aula">{values.map((v, i) => <div className="time" key={i}><strong>{v}</strong><span>{['DIAS', 'HORAS', 'MINUTOS', 'SEGUNDOS'][i]}</span></div>)}</div>;
 }
+const DEFAULT_CONTENT = {
+  event_date: 'QUINTA-FEIRA, ÀS 12H | AULA AO VIVO E GRATUITA',
+  title: 'ARQUITETURA DE CRESCIMENTO™',
+  subtitle: 'Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.',
+  body_text: 'Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.',
+  cta: 'QUERO PARTICIPAR DA AULA',
+  footer: 'Ao vivo pelo Google Meet | 45 a 60 minutos'
+};
 let pageviewSent = false;
 export default function Home() {
   useEffect(() => {
@@ -48,12 +56,12 @@ export default function Home() {
       <svg className="waves" viewBox="0 0 1600 260" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="wave"><stop stopColor="#009bff"/><stop offset=".18" stopColor="#00e7ff"/><stop offset=".5" stopColor="#004b9a" stopOpacity="0"/><stop offset=".85" stopColor="#00e7ff"/><stop offset="1" stopColor="#007dff"/></linearGradient></defs>{Array.from({length: 9}, (_,i) => <path key={i} d={`M-100 ${25+i*15} C220 ${-10+i*10},250 ${260+i*6},800 ${300+i*4} S1350 ${130+i*14},1700 ${105+i*15}`} fill="none" stroke="url(#wave)" strokeWidth={i===0?3:1} opacity={1-i*.09}/>)}</svg>
       <div className="content">
         <a href="#headline" className="brand" aria-label="GDM Company"><img src="/gdm-logo-clean.svg?v=3" width="490" height="160" alt="GDM Company" fetchPriority="high" /></a>
-        <p className="schedule"><span>QUINTA-FEIRA, ÀS 12H | AULA AO VIVO E GRATUITA</span></p>
-        <h1 id="headline"><span className="highlight">ARQUITETURA DE</span><br className="desktop-break"/> <em>CRESCIMENTO™</em></h1>
-        <p className="intro">Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.</p>
-        <p className="subtitle"><span className="dash"/> <span>Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.</span><span className="dash"/></p>
-        <a className="cta" href={process.env.NODE_ENV === 'development' ? DEFAULT_WHATSAPP : '/ir/whatsapp'} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>QUERO PARTICIPAR DA AULA</span><ArrowRight className="arrow" aria-hidden="true"/></a>
-        <p className="details"><Video aria-hidden="true"/><span>Ao vivo pelo <strong>Google Meet</strong> | 45 a 60 minutos</span></p>
+        <p className="schedule"><span>{content.event_date}</span></p>
+        <h1 id="headline">{titleParts.length > 1 ? <><span className="highlight">{titleParts[0]} DE</span><br className="desktop-break"/> <em>{titleParts.slice(1).join(" DE ")}</em></> : <em>{content.title}</em>}</h1>
+        <p className="intro">{content.body_text}</p>
+        <p className="subtitle"><span className="dash"/> <span>{content.subtitle}</span><span className="dash"/></p>
+        <a className="cta" href={process.env.NODE_ENV === 'development' ? DEFAULT_WHATSAPP : '/ir/whatsapp'} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>{content.cta}</span><ArrowRight className="arrow" aria-hidden="true"/></a>
+        <p className="details"><Video aria-hidden="true"/><span>{content.footer}</span></p>
       </div>
     </section>
   </main>;
