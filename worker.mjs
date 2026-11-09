@@ -79,7 +79,7 @@ function safeDesign(value) {
     const base = defaultDesign[section];
     const validColor = v => typeof v === 'string' && (/^#[0-9a-fA-F]{6}$/.test(v) || v === 'transparent') ? v : null;
     const font = ['Arial','Helvetica','Georgia','Verdana','Tahoma','Trebuchet MS','system-ui'].includes(source.font_family) ? source.font_family : base.font_family;
-    const size = (v, fallback) => Number.isFinite(Number(v)) && Number(v) >= 10 && Number(v) <= 100 ? Math.round(Number(v)) : fallback;
+    const size = (v, fallback) => Number.isFinite(Number(v)) && Number(v) >= 10 && Number(v) <= (section === 'brand' ? 240 : 100) ? Math.round(Number(v)) : fallback;
     result[section] = { font_family: font, desktop_size: size(source.desktop_size, base.desktop_size), mobile_size: size(source.mobile_size, base.mobile_size), background: validColor(source.background) || base.background, color: validColor(source.color) || base.color };
   }
   return result;
