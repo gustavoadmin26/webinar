@@ -41,7 +41,8 @@ export default function Home() {
       .then(data => { if (data) setContent({ ...DEFAULT_CONTENT, ...data }); })
       .catch(() => {});
   }, []);
-  const titleParts = content.title.split(' DE ');
+  const displayTitle = content.title.replace(/™/g, '').trim();
+  const titleParts = displayTitle.split(' DE ');
   const sectionStyle = (name: keyof typeof DEFAULT_DESIGN) => { const d = content.design?.[name] || DEFAULT_DESIGN[name]; return { '--section-font': d.font_family, '--section-desktop': `${d.desktop_size}px`, '--section-mobile': `${d.mobile_size}px`, '--section-bg': d.background, '--section-color': d.color } as CSSProperties; };
   useEffect(() => {
     if (pageviewSent || process.env.NODE_ENV === 'development') return;
@@ -73,7 +74,6 @@ export default function Home() {
         <h1 id="headline" style={sectionStyle("title")}>{titleParts.length > 1 ? <><span className="highlight">{titleParts[0]} DE</span><br className="desktop-break"/> <em>{titleParts.slice(1).join(" DE ")}</em></> : <em>{content.title}</em>}</h1>
         <p className="intro" style={sectionStyle("intro")}>{content.body_text}</p>
         <p className="subtitle" style={sectionStyle("subtitle")}><span className="dash"/> <span>{content.subtitle}</span><span className="dash"/></p>
-        <p className="cta-heading" style={sectionStyle("cta_heading")}>{content.cta_heading}</p>
         <a className="cta" style={sectionStyle("cta")} href={process.env.NODE_ENV === 'development' ? DEFAULT_WHATSAPP : '/ir/whatsapp'} target="_blank" rel="noopener noreferrer"><MessageCircle className="whatsapp" aria-hidden="true"/><span>{content.cta}</span><ArrowRight className="arrow" aria-hidden="true"/></a>
         <p className="details" style={sectionStyle("footer")}><Video aria-hidden="true"/><span>{content.footer}</span></p>
       </div>
