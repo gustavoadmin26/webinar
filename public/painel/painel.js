@@ -94,6 +94,14 @@ function submit(form, action) {
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (submitting) return;
+    if (!form.checkValidity()) {
+      const invalidField = form.querySelector(':invalid');
+      status.dataset.state = 'error';
+      status.textContent = 'Há um campo obrigatório vazio ou com valor inválido. Confira os campos destacados.';
+      invalidField?.focus();
+      invalidField?.reportValidity();
+      return;
+    }
     const button = form.querySelector('button[type="submit"], button:not([type])');
     const originalLabel = button?.textContent;
     submitting = true;
