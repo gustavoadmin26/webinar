@@ -21,14 +21,13 @@ function Countdown({ style }: { style: CSSProperties }) {
   const values = remaining === null ? ['—', '—', '—', '—'] : [Math.floor(remaining / 86400), Math.floor(remaining / 3600) % 24, Math.floor(remaining / 60) % 60, remaining % 60].map(v => String(v).padStart(2, '0'));
   return <div className="countdown" style={style} aria-label="Contagem regressiva para a próxima aula">{values.map((v, i) => <div className="time" key={i}><strong>{v}</strong><span>{['DIAS', 'HORAS', 'MINUTOS', 'SEGUNDOS'][i]}</span></div>)}</div>;
 }
-const DEFAULT_DESIGN = {"countdown":{"font_family":"Arial","desktop_size":34,"mobile_size":28,"background":"#02162c","color":"#f8fbff"},"brand":{"font_family":"Arial","desktop_size":195,"mobile_size":141,"background":"transparent","color":"#ffffff"},"schedule":{"font_family":"Arial","desktop_size":27,"mobile_size":18,"background":"transparent","color":"#ff744d"},"title":{"font_family":"Arial","desktop_size":64,"mobile_size":36,"background":"transparent","color":"#00d8f5"},"intro":{"font_family":"Arial","desktop_size":30,"mobile_size":19,"background":"transparent","color":"#f8fbff"},"subtitle":{"font_family":"Arial","desktop_size":36,"mobile_size":18,"background":"transparent","color":"#f8fbff"},"cta_heading":{"font_family":"Arial","desktop_size":32,"mobile_size":20,"background":"transparent","color":"#ffffff"},"cta":{"font_family":"Arial","desktop_size":32,"mobile_size":17,"background":"#12bd70","color":"#ffffff"},"footer":{"font_family":"Arial","desktop_size":22,"mobile_size":14,"background":"transparent","color":"#e2e9f1"}};
+const DEFAULT_DESIGN = {"countdown":{"font_family":"Arial","desktop_size":34,"mobile_size":28,"background":"#02162c","color":"#f8fbff"},"brand":{"font_family":"Arial","desktop_size":195,"mobile_size":141,"background":"transparent","color":"#ffffff"},"schedule":{"font_family":"Arial","desktop_size":27,"mobile_size":18,"background":"transparent","color":"#ff744d"},"title":{"font_family":"Arial","desktop_size":64,"mobile_size":36,"background":"transparent","color":"#00d8f5"},"intro":{"font_family":"Arial","desktop_size":30,"mobile_size":19,"background":"transparent","color":"#f8fbff"},"subtitle":{"font_family":"Arial","desktop_size":36,"mobile_size":18,"background":"transparent","color":"#f8fbff"},"cta":{"font_family":"Arial","desktop_size":32,"mobile_size":17,"background":"#12bd70","color":"#ffffff"},"footer":{"font_family":"Arial","desktop_size":22,"mobile_size":14,"background":"transparent","color":"#e2e9f1"}};
 const DEFAULT_CONTENT = {
   design: DEFAULT_DESIGN,
   event_date: 'QUINTA-FEIRA, ÀS 12H | AULA AO VIVO E GRATUITA',
   title: 'ARQUITETURA DE CRESCIMENTO™',
   subtitle: 'Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.',
   body_text: 'Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.',
-  cta_heading: 'QUERO PARTICIPAR DA AULA →',
   cta: 'Entrar no grupo de WhatsApp',
   footer: 'Ao vivo pelo Google Meet | 45 a 60 minutos'
 };
