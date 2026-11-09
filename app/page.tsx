@@ -25,7 +25,7 @@ const DEFAULT_DESIGN = {"countdown":{"font_family":"Arial","desktop_size":34,"mo
 const DEFAULT_CONTENT = {
   design: DEFAULT_DESIGN,
   event_date: 'QUINTA-FEIRA, ÀS 12H | AULA AO VIVO E GRATUITA',
-  title: 'ARQUITETURA DE CRESCIMENTO™',
+  title: 'ARQUITETURA DE CRESCIMENTO',
   subtitle: 'Os 5 passos para atrair mais clientes, vender mais e fazer sua empresa crescer.',
   body_text: 'Sua empresa não precisa apenas de mais clientes. Precisa de um método para crescer.',
   cta: 'Entrar no grupo de WhatsApp',
