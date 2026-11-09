@@ -34,6 +34,14 @@ async function refresh() {
     const data = await api('dashboard?days=' + range.value);
     if (current !== requestNumber) return;
     activeUrl = data.url;
+    if (data.content && !contentDirty) {
+      byId('content-date').value = data.content.event_date || '';
+      byId('content-title').value = data.content.title || '';
+      byId('content-subtitle').value = data.content.subtitle || '';
+      byId('content-text').value = data.content.body_text || '';
+      byId('content-cta').value = data.content.cta || '';
+      byId('content-footer').value = data.content.footer || '';
+    }
     link.value = sessionStorage.getItem(draftKey) ?? activeUrl;
     byId('test-link').href = activeUrl;
     byId('views').textContent = counts.format(data.pageviews);
